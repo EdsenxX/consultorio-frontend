@@ -58,7 +58,6 @@ const Citas = () => {
             <Cita />
             <Cita />
             <Cita />
-            <Cita />
           </div>
         </div>
       </div>
