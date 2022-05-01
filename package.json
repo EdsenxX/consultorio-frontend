@@ -10,6 +10,7 @@
   "dependencies": {
     "@hookform/resolvers": "^2.8.8",
     "axios": "^0.27.2",
+    "boxicons": "^2.1.2",
     "env-cmd": "^10.1.0",
     "moment": "^2.29.3",
     "node-sass": "^7.0.1",
