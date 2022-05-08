@@ -1,37 +1,32 @@
 // Dependencies
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import moment from "moment";
+import swal from "sweetalert";
 // Components
 import Container from "../components/Container";
+import CitaCard from "../components/citas/CitaCard";
+// Services
+import CitasServices from "../services/Citas";
 
-const Cita = () => {
-    return (
-        <div className="bg-sky-800 text-white w-[300px] p-4 rounded-xl">
-              <p className="text-right mb-3 font-bold">
-                {moment().format("DD/MM/YYYY HH:mm")}
-              </p>
-              <div>
-                <p className="text-lg text-gray-300">Paciente</p>
-                <p className="text-xl">Eduardo Serrano Jaime</p>
-              </div>
-              <div>
-                <p className="text-lg text-gray-300">Doctor</p>
-                <p className="text-xl">Dr. Strange</p>
-              </div>
-              <div>
-                <p className="text-lg text-gray-300">Consultorio</p>
-                <p className="text-xl">Numero 7</p>
-              </div>
-              <div>
-                <p className="text-lg text-gray-300">Notas</p>
-                <p className="text-xl">
-                  El paciente mas guapo que vamos a tener
-                </p>
-              </div>
-            </div>
-    )
-}
+const citasServices = new CitasServices();
 
 const Citas = () => {
+
+  const [citas, setCitas] = useState([]);
+
+  const getCitas = () => {
+    citasServices.getCitasByActualDay().then((response) => {
+      setCitas(response.citas);
+    }).catch((err) => {
+      swal("Error", err.message, "error");
+    });
+  }
+
+  useEffect(() => {
+    getCitas();
+  } , []);
+
   return (
     <Container>
       <div className="flex flex-col w-full">
@@ -43,21 +38,22 @@ const Citas = () => {
         </div>
         <div className="mt-6">
           <div className="flex justify-end gap-2">
-            <button className="flex items-center bg-sky-800 rounded-xl text-white p-3 gap-2">
+            <Link
+              to="/citas/new"
+              className="flex items-center bg-sky-800 rounded-xl text-white p-3 gap-2"
+            >
               <box-icon type="solid" color="#fff" name="calendar"></box-icon>
               Agendar Cita
-            </button>
+            </Link>
             <button className="flex items-center bg-sky-800 rounded-xl text-white p-3 gap-2">
               <box-icon name="show" color="#fff"></box-icon>
               Ver mas
             </button>
           </div>
-          <div className="flex flex-nowrap gap-2 mt-2">
-            <Cita />
-            <Cita />
-            <Cita />
-            <Cita />
-            <Cita />
+          <div className="flex flex-wrap mt-2 gap-2">
+            {citas.map((cita, idx) => (
+              <CitaCard key={idx} info={cita}/>
+            ))}
           </div>
         </div>
       </div>
