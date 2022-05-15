@@ -18,7 +18,6 @@ const AllCitas = () => {
     citasServices
       .getAllCitas()
       .then((response) => {
-        console.log(response);
         setCitas(response);
       })
       .catch((err) => {
@@ -45,8 +44,8 @@ const AllCitas = () => {
               Inicio
             </Link>
           </div>
-        {Object.entries(citas).map(([date, citas]) => (
-          <div className="mb-10">
+        {Object.entries(citas).map(([date, citas],idx) => (
+          <div className="mb-10" key={idx}>
             <p className="block w-full border-b-2 border-sky-800 text-xl">
               {moment(date).format("DD/MM/YYYY")}
             </p>

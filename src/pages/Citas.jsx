@@ -42,6 +42,9 @@ const Citas = () => {
         </div>
         <div className="mt-6 h-full">
           <div className="flex justify-end gap-2">
+            <Link to="/settings" className="flex items-center bg-sky-800 rounded-xl text-white p-3 gap-2">
+              Configuraciones
+            </Link>
             <Link
               to="/citas/new"
               className="flex items-center bg-sky-800 rounded-xl text-white p-3 gap-2"

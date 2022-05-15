@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Citas from "./pages/Citas";
 import Cita from "./pages/Cita";
 import AllCitas from "./pages/AllCitas";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/all" element={<AllCitas />} />
         <Route path="/citas/new" element={<Cita />} />
         <Route path="/citas/show/:id" element={<Cita />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </BrowserRouter>
   );
