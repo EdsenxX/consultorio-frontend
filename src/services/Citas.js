@@ -49,6 +49,28 @@ class CitasServices {
         });
     });
 
+  getAllCitas = () => new Promise(async (resolve, reject) => {
+    await Axios.get(`${base_url}/citas/all`)
+      .then((res) => {
+        let citas = res.data.citas;
+        // split citas by day
+        let citasByDay = {};
+        citas.forEach((cita) => {
+          let fecha = cita.date_appointment.split("T")[0];
+          if (citasByDay[fecha]) {
+            citasByDay[fecha].push(cita);
+          } else {
+            citasByDay[fecha] = [cita];
+          }
+        });
+        resolve(citasByDay);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject(this.getErrorMessage(err));
+      });
+  })
+
   updateCita = (id, datosCita) =>
     new Promise(async (resolve, reject) => {
       await Axios.put(`${base_url}/citas/${id}`, datosCita)
