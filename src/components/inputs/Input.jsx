@@ -13,7 +13,7 @@ const Input = (props) => {
         {...props.register}
         type={props.type}
         id={inputId}
-        className="outline-none border-b-2 border-sky-800 w-full"
+        className="outline-none border-b-2 border-sky-800 w-full bg-transparent"
         disabled={props.disabled}
         value={props.value}
       />

@@ -13,7 +13,7 @@ const TextArea = (props) => {
         {...props.register}
         type={props.type}
         id={textAreaId}
-        className="outline-none border-b-2 border-sky-800 w-full resize-none"
+        className="outline-none border-b-2 border-sky-800 w-full resize-none bg-transparent"
         disabled={props.disabled}
         value={props.value}
       />

@@ -7,16 +7,27 @@ import Container from "../../components/Container";
 // Pages
 import UsersSettings from "./Users";
 import DoctorsSettings from "./Doctors";
+import AddUser from "./AddUser";
 
 const Settings = () => {
   const [template, setTemplate] = useState("users");
 
+  const changeAddUser = () => {
+    setTemplate("addUser");
+  }
+
+  const changeUsers = () => {
+    setTemplate("users");
+  }
+
   const getTemplate = () => {
     switch (template) {
       case "users":
-        return <UsersSettings />;
+        return <UsersSettings addUser={changeAddUser} />;
       case "doctors":
-        return <DoctorsSettings />;
+        return <DoctorsSettings/>;
+      case "addUser":
+        return <AddUser userList={changeUsers} />;
     }
   };
 

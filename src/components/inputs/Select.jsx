@@ -12,7 +12,7 @@ const Select = (props) => {
       <select
         {...props.register}
         id={selectId}
-        className="outline-none border-b-2 border-sky-800 w-full"
+        className="outline-none border-b-2 border-sky-800 w-full bg-transparent"
       >
         {props.children}
       </select>
