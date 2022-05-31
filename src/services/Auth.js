@@ -1,9 +1,9 @@
-// Dependencia
+// Dependencies
 import Axios from "axios";
 
 const base_url = "http://localhost:5000";
 
-class UsersServices {
+class AuthServices {
   getErrorMessage = (err) => {
     let errorMessage;
     try {
@@ -16,14 +16,11 @@ class UsersServices {
     return errorMessage;
   };
 
-  createUser = (datosUser) =>
+  login = (datosLogin) =>
     new Promise(async (resolve, reject) => {
-      await Axios.post(`${base_url}/users`, datosUser, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-        .then((res) => {
+      await Axios.post(`${base_url}/auth/login`, datosLogin)
+        .then(async (res) => {
+          await localStorage.setItem("token", res.data.jwt);
           resolve(res.data);
         })
         .catch((err) => {
@@ -31,13 +28,19 @@ class UsersServices {
         });
     });
 
-  getAllUsers = () =>
+  verify = () =>
     new Promise(async (resolve, reject) => {
-      await Axios.get(`${base_url}/users`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
+      const token = await localStorage.getItem("token");
+      if (!token) return reject("No se encontro el jwt");
+      Axios.post(
+        `${base_url}/auth/verify`,
+        { token: token },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
         .then((res) => {
           resolve(res.data);
         })
@@ -47,4 +50,4 @@ class UsersServices {
     });
 }
 
-export default UsersServices;
+export default AuthServices;

@@ -25,6 +25,7 @@ const schema = yup
       .date()
       .typeError("Ingresa una fecha valida")
       .required("Campo Obligatorio"),
+    password: yup.string().required("Campo Obligatorio").trim(),
   })
   .required();
 
@@ -52,11 +53,16 @@ const AddUser = (props) => {
   };
 
   const handleAddUser = (datos) => {
-    usersServices.createUser(datos).then((res) => {
-        swal("Usuario Creado", res.message, "success");
-    }).catch((err) => {
+    usersServices
+      .createUser(datos)
+      .then((res) => {
+        swal("Usuario Creado", res.message, "success").then(() => {
+          props.userList();
+        });
+      })
+      .catch((err) => {
         swal("Error", err.message, "error");
-    })
+      });
   };
 
   return (
@@ -100,12 +106,19 @@ const AddUser = (props) => {
             required
           />
         </div>
-        <div className="flex gap-10 w-2/4">
+        <div className="flex gap-10">
           <Input
             label="Fecha de nacimiento"
             type="date"
             register={register("birthDate")}
             error={errors.birthDate}
+            required
+          />
+          <Input
+            label="Contraseña"
+            type="password"
+            register={register("password")}
+            error={errors.password}
             required
           />
         </div>

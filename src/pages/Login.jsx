@@ -1,13 +1,21 @@
 // Dependencies
-import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import swal from "sweetalert";
+import { connect } from "react-redux";
+import * as authActions from "../actions/authActions";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 // Components
 import Container from "../components/Container";
 import Input from "../components/inputs/Input";
 // Assets
 import LoginImage from "../assets/img/login.svg";
+// Services
+import AuthServices from "../services/Auth";
+
+const authServices = new AuthServices();
 
 const schema = yup
   .object({
@@ -20,7 +28,16 @@ const schema = yup
   })
   .required();
 
-const Login = () => {
+const Login = (props) => {
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (props.authReducer.login) {
+      navigate("/");
+    }
+  }, [props.authReducer]);
+
 
   const {
     register,
@@ -31,7 +48,12 @@ const Login = () => {
   });
 
   const login = (datos) => {
-    console.log(datos);
+    authServices.login(datos).then((res) => {
+      props.setLogin();
+      navigate("/");
+    }).catch((err) => {
+      swal("Error", err.message, "error");
+    });
   };
 
   return (
@@ -39,8 +61,8 @@ const Login = () => {
       <div className="w-2/4 flex justify-center items-center">
         <form onSubmit={handleSubmit(login)}>
           <h1 className="text-5xl mb-10">Bienvenido</h1>
-          <Input label="Email" registre={register("email")} error={errors.email} required/>
-          <Input label="Contraseña" registre={register("password")} error={errors.password} required/>
+          <Input type="text" label="Email" register={register("email")} error={errors.email} required/>
+          <Input type="password" label="Contraseña" register={register("password")} error={errors.password} required/>
           <button className="w-[450px] mt-4 p-3 bg-sky-800 text-white rounded-lg shadow-lg shadow-sky-800/60">
             Ingresar
           </button>
@@ -53,4 +75,8 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapStateToProps = ({ authReducer }) => ({
+  authReducer,
+});
+
+export default connect(mapStateToProps, authActions)(Login);

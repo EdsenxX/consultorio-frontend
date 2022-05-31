@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import swal from "sweetalert";
+import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
 // Components
 import Container from "../components/Container";
 import CitaCard from "../components/citas/CitaCard";
@@ -13,7 +15,10 @@ import WarningSignal from "../assets/img/warning.png"
 
 const citasServices = new CitasServices();
 
-const Citas = () => {
+const Citas = (props) => {
+
+  const navigate = useNavigate();
+
   const [citas, setCitas] = useState([]);
 
   const getCitas = () => {
@@ -28,8 +33,11 @@ const Citas = () => {
   };
 
   useEffect(() => {
+    if (!props.authReducer.login) {
+     navigate("/login");
+    }
     getCitas();
-  }, []);
+  }, [props.authReducer.login]);
 
   return (
     <Container>
@@ -78,4 +86,8 @@ const Citas = () => {
   );
 };
 
-export default Citas;
+const mapStateToProps = ({ authReducer }) => ({
+  authReducer,
+});
+
+export default connect(mapStateToProps)(Citas);

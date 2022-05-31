@@ -6,6 +6,7 @@ import * as yup from "yup";
 import swal from "sweetalert";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import moment from "moment";
+import { connect } from "react-redux";
 // Components
 import Container from "../components/Container";
 import Input from "../components/inputs/Input";
@@ -37,7 +38,7 @@ const schema = yup
   })
   .required();
 
-const Cita = () => {
+const Cita = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
@@ -65,6 +66,7 @@ const Cita = () => {
         setValue("time", moment(cita.date_appointment).format("HH:mm"));
         setValue("doctor", cita.doctor);
         setValue("notes", cita.notes);
+        setValue("createdBy", cita.created_by);
       })
       .catch((err) => {
         swal("Error", err.message, "error");
@@ -72,10 +74,13 @@ const Cita = () => {
   };
 
   useEffect(() => {
+    if (!props.authReducer.login) {
+      navigate("/login");
+     }
     if (!isNew) {
       getCita();
     }
-  }, []);
+  }, [props.authReducer.login]);
 
   const cancelar = () => {
     swal({
@@ -100,6 +105,7 @@ const Cita = () => {
   };
 
   const createCita = (datos) => {
+    datos.createdBy = props.authReducer.user._id;
     citasServices
       .createCita(datos)
       .then((res) => {
@@ -196,7 +202,6 @@ const Cita = () => {
               <option value="">Selecciona un doctor</option>
               <option value="627824a1b4e395d9faacc3f7">Eduardo Serrano</option>
             </Select>
-            <Input label="Agendado por" type="text" disabled />
           </div>
           <TextArea
             label="Notas"
@@ -215,4 +220,8 @@ const Cita = () => {
   );
 };
 
-export default Cita;
+const mapStateToProps = ({ authReducer }) => ({
+  authReducer,
+});
+
+export default connect(mapStateToProps)(Cita);

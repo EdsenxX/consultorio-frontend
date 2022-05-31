@@ -41,31 +41,13 @@ const UsersSettings = (props) => {
         </thead>
         <tbody>
           {users.map((user) => (
-            <tr key={user._id} className="border-b border-gray-400 after:m-7">
-              <td>{user.firstName}</td>
-              <td>{user.lastName}</td>
-              <td>{user.email}</td>
-              <td>{user.phone}</td>
+            <tr key={user._id} className="border-b border-gray-400">
+              <td className='p-2'>{user.firstName}</td>
+              <td className='p-2'>{user.lastName}</td>
+              <td className='p-2'>{user.email}</td>
+              <td className='p-2'>{user.phone}</td>
             </tr>
           ))}
-          {/* <tr className="border-b border-gray-400 p-7 after:m-7">
-            <td>Juan</td>
-            <td>Perez</td>
-            <td>juan@perez.com</td>
-            <td>Recepcionista</td>
-          </tr>
-          <tr className="">
-            <td>Juan</td>
-            <td>Perez</td>
-            <td>juan@perez.com</td>
-            <td>Recepcionista</td>
-          </tr>
-          <tr className="">
-            <td>Juan</td>
-            <td>Perez</td>
-            <td>juan@perez.com</td>
-            <td>Recepcionista</td>
-          </tr> */}
         </tbody>
       </table>
     </div>

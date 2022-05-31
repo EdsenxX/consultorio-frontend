@@ -18,7 +18,11 @@ class CitasServices {
 
   createCita = (datosCita) =>
     new Promise(async (resolve, reject) => {
-      await Axios.post(`${base_url}/citas`, datosCita)
+      await Axios.post(`${base_url}/citas`, datosCita, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
         .then((res) => {
           resolve(res.data);
         })
@@ -29,7 +33,11 @@ class CitasServices {
 
   getCitasByActualDay = () =>
     new Promise(async (resolve, reject) => {
-      await Axios.get(`${base_url}/citas`)
+      await Axios.get(`${base_url}/citas`,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
         .then((res) => {
           resolve(res.data);
         })
@@ -40,7 +48,11 @@ class CitasServices {
 
   getCita = (id) =>
     new Promise(async (resolve, reject) => {
-      await Axios.get(`${base_url}/citas/${id}`)
+      await Axios.get(`${base_url}/citas/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
         .then((res) => {
           resolve(res.data);
         })
@@ -50,7 +62,11 @@ class CitasServices {
     });
 
   getAllCitas = () => new Promise(async (resolve, reject) => {
-    await Axios.get(`${base_url}/citas/all`)
+    await Axios.get(`${base_url}/citas/all`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
       .then((res) => {
         let citas = res.data.citas;
         // split citas by day
@@ -73,7 +89,11 @@ class CitasServices {
 
   updateCita = (id, datosCita) =>
     new Promise(async (resolve, reject) => {
-      await Axios.put(`${base_url}/citas/${id}`, datosCita)
+      await Axios.put(`${base_url}/citas/${id}`, datosCita, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
         .then((res) => {
           resolve(res.data);
         })
