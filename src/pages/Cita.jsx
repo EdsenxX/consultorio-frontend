@@ -1,5 +1,5 @@
 // Dependencies
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -15,8 +15,10 @@ import TextArea from "../components/inputs/TextArea";
 import Button from "../components/Button";
 // Services
 import CitasServices from "../services/Citas";
+import DoctorsServices from "../services/Doctors";
 
 const citasServices = new CitasServices();
+const doctorsServices = new DoctorsServices();
 
 const schema = yup
   .object({
@@ -44,6 +46,8 @@ const Cita = (props) => {
   const params = useParams();
   const id = params.id;
   const isNew = location.pathname.includes("new");
+
+  const [doctors, setDoctors] = useState([]);
 
   const {
     register,
@@ -73,7 +77,16 @@ const Cita = (props) => {
       });
   };
 
+  const getDoctors = async () => {
+    doctorsServices.getAllDoctors().then((res) => {
+      setDoctors(res.doctors);
+    }).catch((err) => {
+      swal("Error", err.message, "error");
+    })
+  }
+
   useEffect(() => {
+    getDoctors();
     if (!props.authReducer.login) {
       navigate("/login");
      }
@@ -200,7 +213,11 @@ const Cita = (props) => {
               required
             >
               <option value="">Selecciona un doctor</option>
-              <option value="627824a1b4e395d9faacc3f7">Eduardo Serrano</option>
+              {doctors.map((doctor) => (
+                <option key={doctor._id} value={doctor._id}>
+                  {doctor.firstName} {doctor.lastName}
+                </option>
+              ))}
             </Select>
           </div>
           <TextArea

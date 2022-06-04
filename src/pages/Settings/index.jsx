@@ -8,6 +8,7 @@ import Container from "../../components/Container";
 import UsersSettings from "./Users";
 import DoctorsSettings from "./Doctors";
 import AddUser from "./AddUser";
+import AddDoctor from "./AddDoctor";
 
 const Settings = () => {
   const [template, setTemplate] = useState("users");
@@ -20,14 +21,25 @@ const Settings = () => {
     setTemplate("users");
   }
 
+  const changeDoctors = () => {
+    setTemplate("doctors");
+  }
+
+  const changeAddDoctor = () => {
+    setTemplate("addDoctor");
+  }
+
   const getTemplate = () => {
     switch (template) {
       case "users":
         return <UsersSettings addUser={changeAddUser} />;
-      case "doctors":
-        return <DoctorsSettings/>;
-      case "addUser":
-        return <AddUser userList={changeUsers} />;
+        case "addUser":
+          return <AddUser userList={changeUsers} />;
+        case "doctors":
+          return <DoctorsSettings addDoctor={changeAddDoctor}/>;
+        case "addDoctor":
+          return <AddDoctor doctorList={changeDoctors} />;
+      
     }
   };
 
@@ -57,7 +69,7 @@ const Settings = () => {
           <div className="w-[20%] bg-gray-200 rounded-xl p-5">
             <ul className="flex flex-col gap-2">
               <li
-                class="cursor-pointer rounded-md p-2 hover:bg-sky-800 hover:text-white"
+                className="cursor-pointer rounded-md p-2 hover:bg-sky-800 hover:text-white"
                 onClick={() => {
                   handleChangeTemplate("users");
                 }}
@@ -65,7 +77,7 @@ const Settings = () => {
                 Usuario
               </li>
               <li
-                class="cursor-pointer rounded-md p-2 hover:bg-sky-800 hover:text-white"
+                className="cursor-pointer rounded-md p-2 hover:bg-sky-800 hover:text-white"
                 onClick={() => {
                   handleChangeTemplate("doctors");
                 }}

@@ -7,29 +7,19 @@ import swal from "sweetalert";
 import Button from "../../components/Button";
 import Input from "../../components/inputs/Input";
 // Services
-import UsersServices from "../../services/Users";
+import DoctorsServices from "../../services/Doctors";
 
-const usersServices = new UsersServices();
+const doctorsServices = new DoctorsServices();
 
 const schema = yup
   .object({
     firstName: yup.string().required("Campo Obligatorio").trim(),
     lastName: yup.string().required("Campo Obligatorio").trim(),
-    email: yup
-      .string()
-      .email("Ingresa un correo valido")
-      .required("Campo Obligatorio")
-      .trim(),
-    phone: yup.string().required("Campo Obligatorio").trim(),
-    birthDate: yup
-      .date()
-      .typeError("Ingresa una fecha valida")
-      .required("Campo Obligatorio"),
-    password: yup.string().required("Campo Obligatorio").trim(),
+    consultorio: yup.string().required("Campo Obligatorio").trim(),
   })
   .required();
 
-const AddUser = (props) => {
+const AddDoctor = (props) => {
   const {
     register,
     handleSubmit,
@@ -47,18 +37,18 @@ const AddUser = (props) => {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        props.userList();
+        props.doctorList();
       }
     });
   };
 
-  const handleAddUser = (datos) => {
-    usersServices
-      .createUser(datos)
+  const handleAddDoctor = (datos) => {
+    doctorsServices
+      .addDoctor(datos)
       .then((res) => {
-        swal("Usuario Creado", res.message, "success").then(() => {
-          props.userList();
-        });
+        swal("Doctor creado", res.message, "success").then(()=>{
+            props.doctorList();
+        })
       })
       .catch((err) => {
         swal("Error", err.message, "error");
@@ -68,10 +58,10 @@ const AddUser = (props) => {
   return (
     <div className="flex flex-col w-full">
       <div className="flex justify-between items-center w-full">
-        <h1 className="text-2xl mb-5">Agregar Usuario</h1>
+        <h1 className="text-2xl mb-5">Agregar Doctor</h1>
       </div>
       <form
-        onSubmit={handleSubmit(handleAddUser)}
+        onSubmit={handleSubmit(handleAddDoctor)}
         className="flex flex-col w-full gap-10"
       >
         <div className="flex gap-10">
@@ -92,33 +82,10 @@ const AddUser = (props) => {
         </div>
         <div className="flex gap-10">
           <Input
-            label="Correo"
+            label="Consultorio"
             type="text"
-            register={register("email")}
-            error={errors.email}
-            required
-          />
-          <Input
-            label="Telefono"
-            type="phone"
-            register={register("phone")}
-            error={errors.phone}
-            required
-          />
-        </div>
-        <div className="flex gap-10">
-          <Input
-            label="Fecha de nacimiento"
-            type="date"
-            register={register("birthDate")}
-            error={errors.birthDate}
-            required
-          />
-          <Input
-            label="Contraseña"
-            type="password"
-            register={register("password")}
-            error={errors.password}
+            register={register("consultorio")}
+            error={errors.consultorio}
             required
           />
         </div>
@@ -126,11 +93,11 @@ const AddUser = (props) => {
           <Button type="button" onClick={cancelar}>
             Cancelar
           </Button>
-          <Button>Crear Usuario</Button>
+          <Button>Crear Doctor</Button>
         </div>
       </form>
     </div>
   );
 };
 
-export default AddUser;
+export default AddDoctor;

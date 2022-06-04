@@ -15,7 +15,7 @@ const CitaCard = (props) => {
       </div>
       <div>
         <p className="text-sm text-gray-300">Doctor</p>
-        <p className="text-base">{`${info.doctor[0].first_name} ${info.doctor[0].last_name}`}</p>
+        <p className="text-base">{`${info.doctor[0].firstName} ${info.doctor[0].lastName}`}</p>
       </div>
       <div>
         <p className="text-sm text-gray-300">Consultorio</p>
