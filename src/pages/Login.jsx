@@ -10,6 +10,7 @@ import { useEffect } from "react";
 // Components
 import Container from "../components/Container";
 import Input from "../components/inputs/Input";
+import Button from "../components/Button";
 // Assets
 import LoginImage from "../assets/img/login.svg";
 // Services
@@ -29,7 +30,6 @@ const schema = yup
   .required();
 
 const Login = (props) => {
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,7 +37,6 @@ const Login = (props) => {
       navigate("/");
     }
   }, [props.authReducer]);
-
 
   const {
     register,
@@ -48,24 +47,37 @@ const Login = (props) => {
   });
 
   const login = (datos) => {
-    authServices.login(datos).then((res) => {
-      props.setLogin();
-      navigate("/");
-    }).catch((err) => {
-      swal("Error", err.message, "error");
-    });
+    authServices
+      .login(datos)
+      .then((res) => {
+        props.setLogin();
+        navigate("/");
+      })
+      .catch((err) => {
+        swal("Error", err.message, "error");
+      });
   };
 
   return (
     <Container>
       <div className="w-2/4 flex justify-center items-center">
-        <form onSubmit={handleSubmit(login)}>
+        <form onSubmit={handleSubmit(login)} className="w-[400px]">
           <h1 className="text-5xl mb-10">Bienvenido</h1>
-          <Input type="text" label="Email" register={register("email")} error={errors.email} required/>
-          <Input type="password" label="Contraseña" register={register("password")} error={errors.password} required/>
-          <button className="w-[450px] mt-4 p-3 bg-sky-800 text-white rounded-lg shadow-lg shadow-sky-800/60">
-            Ingresar
-          </button>
+          <Input
+            type="text"
+            label="Email"
+            register={register("email")}
+            error={errors.email}
+            required
+          />
+          <Input
+            type="password"
+            label="Contraseña"
+            register={register("password")}
+            error={errors.password}
+            required
+          />
+          <Button type="submit" full onlyText>Ingresar</Button>
         </form>
       </div>
       <div className="flex justify-center items-center">

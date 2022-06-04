@@ -1,9 +1,8 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import moment from "moment";
-import swal from "sweetalert";
 // Components
 import Container from "../../components/Container";
+import ButtonLink from "../../components/ButtonLink";
 // Pages
 import UsersSettings from "./Users";
 import DoctorsSettings from "./Doctors";
@@ -15,31 +14,30 @@ const Settings = () => {
 
   const changeAddUser = () => {
     setTemplate("addUser");
-  }
+  };
 
   const changeUsers = () => {
     setTemplate("users");
-  }
+  };
 
   const changeDoctors = () => {
     setTemplate("doctors");
-  }
+  };
 
   const changeAddDoctor = () => {
     setTemplate("addDoctor");
-  }
+  };
 
   const getTemplate = () => {
     switch (template) {
       case "users":
         return <UsersSettings addUser={changeAddUser} />;
-        case "addUser":
-          return <AddUser userList={changeUsers} />;
-        case "doctors":
-          return <DoctorsSettings addDoctor={changeAddDoctor}/>;
-        case "addDoctor":
-          return <AddDoctor doctorList={changeDoctors} />;
-      
+      case "addUser":
+        return <AddUser userList={changeUsers} />;
+      case "doctors":
+        return <DoctorsSettings addDoctor={changeAddDoctor} />;
+      case "addDoctor":
+        return <AddDoctor doctorList={changeDoctors} />;
     }
   };
 
@@ -57,13 +55,10 @@ const Settings = () => {
           </p>
         </div>
         <div className="flex justify-end gap-2 mt-2">
-          <Link
-            to="/"
-            className="flex items-center bg-sky-800 rounded-xl text-white p-3 gap-2"
-          >
+          <ButtonLink to="/">
             <box-icon name="home-alt-2" color="#fff"></box-icon>
             Inicio
-          </Link>
+          </ButtonLink>
         </div>
         <div className="flex gap-2 mt-5 h-full">
           <div className="w-[20%] bg-gray-200 rounded-xl p-5">

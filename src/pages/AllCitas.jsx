@@ -1,11 +1,11 @@
 // Dependencies
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import moment from "moment";
 import swal from "sweetalert";
 // Components
 import Container from "../components/Container";
 import CitaCard from "../components/citas/CitaCard";
+import ButtonLink from "../components/ButtonLink";
 // Services
 import CitasServices from "../services/Citas";
 
@@ -39,12 +39,12 @@ const AllCitas = () => {
           </p>
         </div>
         <div className="flex justify-end gap-2">
-            <Link to="/" className="flex items-center bg-sky-800 rounded-xl text-white p-3 gap-2">
-              <box-icon name="home-alt-2" color="#fff"></box-icon>
-              Inicio
-            </Link>
-          </div>
-        {Object.entries(citas).map(([date, citas],idx) => (
+          <ButtonLink to="/">
+            <box-icon name="home-alt-2" color="#fff"></box-icon>
+            Inicio
+          </ButtonLink>
+        </div>
+        {Object.entries(citas).map(([date, citas], idx) => (
           <div className="mb-10" key={idx}>
             <p className="block w-full border-b-2 border-sky-800 text-xl">
               {moment(date).format("DD/MM/YYYY")}

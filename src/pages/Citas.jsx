@@ -1,6 +1,5 @@
 // Dependencies
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import moment from "moment";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
@@ -8,15 +7,18 @@ import { connect } from "react-redux";
 // Components
 import Container from "../components/Container";
 import CitaCard from "../components/citas/CitaCard";
+import Button from "../components/Button";
+import ButtonLink from "../components/ButtonLink";
 // Services
 import CitasServices from "../services/Citas";
 // Assets
-import WarningSignal from "../assets/img/warning.png"
+import WaitImage from "../assets/img/wait.svg";
+// Actions
+import * as authActions from "../actions/authActions";
 
 const citasServices = new CitasServices();
 
 const Citas = (props) => {
-
   const navigate = useNavigate();
 
   const [citas, setCitas] = useState([]);
@@ -34,10 +36,15 @@ const Citas = (props) => {
 
   useEffect(() => {
     if (!props.authReducer.login) {
-     navigate("/login");
+      navigate("/login");
     }
     getCitas();
   }, [props.authReducer.login]);
+
+  const handleLogout = () => {
+    props.logout();
+    navigate("/login");
+  };
 
   return (
     <Container>
@@ -50,20 +57,19 @@ const Citas = (props) => {
         </div>
         <div className="mt-6 h-full">
           <div className="flex justify-end gap-2">
-            <Link to="/settings" className="flex items-center bg-sky-800 rounded-xl text-white p-3 gap-2">
-              Configuraciones
-            </Link>
-            <Link
-              to="/citas/new"
-              className="flex items-center bg-sky-800 rounded-xl text-white p-3 gap-2"
-            >
+            <ButtonLink to="/settings">Configuraciones</ButtonLink>
+            <ButtonLink to="/citas/new">
               <box-icon type="solid" color="#fff" name="calendar"></box-icon>
               Agendar Cita
-            </Link>
-            <Link to="/all" className="flex items-center bg-sky-800 rounded-xl text-white p-3 gap-2">
+            </ButtonLink>
+            <ButtonLink to="/all">
               <box-icon name="show" color="#fff"></box-icon>
               Ver mas
-            </Link>
+            </ButtonLink>
+            <Button onClick={handleLogout}>
+              <box-icon name="door-open" type="solid" color="#fff"></box-icon>
+              Cerrar Sesión
+            </Button>
           </div>
           <div className="flex flex-wrap mt-2 gap-2 h-full">
             {citas.length ? (
@@ -71,7 +77,11 @@ const Citas = (props) => {
             ) : (
               <div className="w-full h-[100%] flex justify-center items-center">
                 <div className="flex flex-col items-center gap-2">
-                  <img src={WarningSignal} alt="Señal de advertencia" className="w-[100px]" />
+                  <img
+                    src={WaitImage}
+                    alt="Señal de advertencia"
+                    className="w-[300px]"
+                  />
                   <h2 className="text-4xl">Sin citas</h2>
                   <p className="text-2xl">
                     No se encontraron citas proximas el dia de hoy
@@ -90,4 +100,4 @@ const mapStateToProps = ({ authReducer }) => ({
   authReducer,
 });
 
-export default connect(mapStateToProps)(Citas);
+export default connect(mapStateToProps, authActions)(Citas);
