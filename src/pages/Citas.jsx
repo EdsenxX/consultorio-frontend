@@ -56,7 +56,7 @@ const Citas = (props) => {
           </p>
         </div>
         <div className="mt-6 h-full">
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end gap-2 mb-5">
             <ButtonLink to="/settings">Configuraciones</ButtonLink>
             <ButtonLink to="/citas/new">
               <box-icon type="solid" color="#fff" name="calendar"></box-icon>
