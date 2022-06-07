@@ -22,14 +22,14 @@ const doctorsServices = new DoctorsServices();
 
 const schema = yup
   .object({
-    firstName: yup.string().required("Campo Obligatorio").trim(),
-    lastName: yup.string().required("Campo Obligatorio").trim(),
+    firstName: yup.string().required("Campo Obligatorio").trim().matches(/^[a-zA-Z\s]*$/, "Solo se permiten letras"),
+    lastName: yup.string().required("Campo Obligatorio").trim().matches(/^[a-zA-Z\s]*$/, "Solo se permiten letras"),
     email: yup
       .string()
       .email("Ingresa un correo valido")
       .required("Campo Obligatorio")
       .trim(),
-    phone: yup.string().required("Campo Obligatorio").trim(),
+    phone: yup.number().required("Campo Obligatorio").typeError("Ingresa un numero"),
     date: yup
       .date()
       .typeError("Ingresa una fecha valida")
@@ -185,7 +185,7 @@ const Cita = (props) => {
             />
             <Input
               label="Telefono"
-              type="phone"
+              type="number"
               register={register("phone")}
               error={errors.phone}
               required
