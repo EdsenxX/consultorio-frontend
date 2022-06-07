@@ -9,6 +9,7 @@ import ButtonLink from "../components/ButtonLink";
 import Button from "../components/Button";
 import Input from "../components/inputs/Input";
 import Select from "../components/inputs/Select";
+import Loader from "../components/Loader";
 // Services
 import CitasServices from "../services/Citas";
 import DoctoresServices from "../services/Doctors";
@@ -21,6 +22,7 @@ const AllCitas = () => {
   const [filteredCitas, setFilteredCitas] = useState([]);
   const [doctores, setDoctores] = useState([]);
   const [showFiltros, setShowFiltros] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getCitas = () => {
     citasServices
@@ -46,13 +48,19 @@ const AllCitas = () => {
       });
   };
 
+  const initComponent = async() => {
+    setIsLoading(true);
+    await getCitas();
+    await getDoctores();
+    setIsLoading(false);
+  }
+
   useEffect(() => {
-    getCitas();
-    getDoctores();
+    initComponent()
   }, []);
 
   const toggleFiltros = () => {
-    if(!showFiltros) {
+    if (!showFiltros) {
       setFilteredCitas(citas);
     }
     setShowFiltros(!showFiltros);
@@ -97,6 +105,7 @@ const AllCitas = () => {
     toggleFiltros();
   };
 
+  if (isLoading) return <Loader />;
   return (
     <Container>
       <div className="w-full">

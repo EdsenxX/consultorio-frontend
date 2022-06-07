@@ -9,6 +9,7 @@ import Container from "../components/Container";
 import CitaCard from "../components/citas/CitaCard";
 import Button from "../components/Button";
 import ButtonLink from "../components/ButtonLink";
+import Loader from "../components/Loader";
 // Services
 import CitasServices from "../services/Citas";
 // Assets
@@ -22,6 +23,7 @@ const Citas = (props) => {
   const navigate = useNavigate();
 
   const [citas, setCitas] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getCitas = () => {
     citasServices
@@ -35,10 +37,12 @@ const Citas = (props) => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     if (!props.authReducer.login) {
       navigate("/login");
     }
     getCitas();
+    setIsLoading(false);
   }, [props.authReducer.login]);
 
   const handleLogout = () => {
@@ -46,6 +50,7 @@ const Citas = (props) => {
     navigate("/login");
   };
 
+  if(isLoading) return <Loader />
   return (
     <Container>
       <div className="flex flex-col w-full">
